@@ -200,7 +200,125 @@ function fnc2() {
 }
 ```
 
-## 10.5. 클로저(clusure)
+## 10.5. 클로저(closure)
 
 - 전역변수는 어디서나 값이 변경될 수 있기 떄문에 보안에 취약하고 예기치못한 오류를 발생시킬 가능성이 있다.
 - 클로저는 전역변수가 아닌 변수를 전역변수와 같은 방식으로 동작하지만, 그 값을 함부로 변경할 수 없도록 변수를 "사유화"할 수 있는 방법을 제공
+- 클로저는 함수와 그 함수가 선언될때의 렉시컬 환경과의 조합이다.
+
+```js
+// 카운터 값 count를 createCounter 함수의 지역변수로 설정
+const createCounter = () => {
+  let count = 0; //카운터의 카운트 초기 값 설정
+  console.log(count);
+
+  // handleIncrement 함수는 count 변수에 접근하고 수정할 수 있다.
+  // 이 함수는 클로저이며, createCounter 함수의 지역변수인 count를 기억한다.
+  const handleIncrement = () => {
+    console.log(count);
+    count += 1; // 현재 카운트 값을 1증가
+
+    // 화면에 새로운 카운트 값을 업데이트
+    document.getElementById("show").innerHTML = count;
+  };
+
+  // 클로저인 handleIncrement 함수를 반환한다.
+  // 이 함수는 외부에서 호출될 수 있으며,
+  // createCounter의 count 변수에 계속해서 접근할 수 있다.
+  return handleIncrement;
+};
+
+const icrement = createCounter();
+```
+
+- 리엑트에서 클로저를 활용한 카운터 컴포넌트
+
+```js
+import React, { useState } from "react";
+
+const Counter = () => {
+  const [count, setCount] = useState(0);
+
+  const handleIncrement = () => {
+    // 클릭 이벤트가 발생할 때마다 handleIncrement함수가 실행 된다.
+    // 이 함수는 setCount를 호출하여 현재 count상태를 업데이트 하는데
+    // 여기서 prevCount => prevCount + 1이라는 업데이트 함수를 사용한다.
+    // 이 함수는 현재 상태값을 인자로 받아 새로운 상태값을 반환 하는데
+    // 이 과정에서 클로저를 통해 prevCount의 최신 상태를 참조하고 있다.
+    setCount((prevCount) => prevCount + 1);
+  };
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={handleIncrement}>증가</button>
+    </div>
+  );
+};
+
+export default Counter;
+```
+
+## 10.6. 예외처리 (exception handing)
+
+- 코드 실행 중 예기치 못한 오류가 발생했을때 코드의 흐름을 복구하는 기능
+
+### 10.6.1. try ~ catch 문
+
+```js
+// 예외처리
+try {
+  // 여기 잘못적은경우
+  alertttt("안녕하세요");
+  console.log("test");
+} catch (error) {
+  console.log("error");
+}
+```
+
+### 10.6.2. try ~ catch ~ finally 문
+
+```html
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>자바스크립트 스터디</title>
+  </head>
+  <body>
+    <h3>0 ~ 9 숫자가 입력되었는지 체크하기</h3>
+    <input type="text" id="input1" />
+    <span id="show"></span><br />
+    <button onclick="checkInput()">확인</button>
+
+    <script src="js/exception.js"></script>
+  </body>
+</html>
+```
+
+```js
+const checkInput = () => {
+  let input_elem = document.getElementById("input1");
+  let a = input_elem.value;
+  document.getElementById("show").innerHTML = "";
+
+  try {
+    if (a === "") {
+      throw "비어있습니다.";
+    }
+    //  숫자 인지 아닌지 not a number
+    if (isNaN(a)) {
+      throw "숫자가 아닙니다.";
+    }
+    a = Number(a);
+    if (a < 0 || a > 9) {
+      throw "0 ~ 9사이 숫자가 아닙니다.";
+    }
+  } catch (error) {
+    document.getElementById("show").innerHTML = `오류: ${error}`;
+  } finally {
+    input_elem.value = ""; // finally문은 입력 내용을 지워주는 기능을 한다.
+  }
+};
+```
