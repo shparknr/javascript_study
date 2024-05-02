@@ -67,3 +67,19 @@ function get_name() {
   alert(text);
 }
 ```
+
+## 14.4 HTML 요소 선택
+
+- 자바스크립트에서 웹페이지에 있는 HTML 요소를 추가, 수정, 삭제하는 방법
+- 제일 먼저 페이지 내에 존재하는 해당 요소를 선택
+
+  - 아이디 (id) 이용
+  - 태그 이름 (tag name) 이용
+  - 클래스 이름 (class name) 이용
+  - CSS 선택자 (selector) 이용
+  - 객체 콜렉션 (object collection) 이용
+
+  ### 14.4.1. 아이디로 요소 선택하기
+
+  - 요소의 id
+  - getElementById("")
