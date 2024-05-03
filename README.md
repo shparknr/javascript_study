@@ -41,6 +41,15 @@ function change(elem) {
 
 - 이벤트가 발생하길 기다렸다가이벤트 발생 시 해당 이벤트를 처리
 
+```html
+<body>
+  <button id="btn">클릭하세요!</button>
+
+  <p id="show"></p>
+  <script src="js/event.js"></script>
+</body>
+```
+
 ```js
 let text = "";
 
