@@ -230,7 +230,7 @@ function showCoord(e) {
 }
 ```
 
-### 15.3. 스크롤 동작으로 따라 양 옆으로 움직이는 텍스트
+### 15.2.6. 스크롤 동작으로 따라 양 옆으로 움직이는 텍스트
 
 - textmove.html
 
@@ -285,7 +285,7 @@ document.addEventListener("scroll", function () {
 });
 ```
 
-### 15.4. 마우스 물결 효과 만들기
+### 15.2.7. 마우스 물결 효과 만들기
 
 - wave.html
 
@@ -360,5 +360,85 @@ document.addEventListener("mousemove", function (e) {
   ripple.addEventListener("animationend", () => {
     ripple.parentElement.removeChild(ripple);
   });
+});
+```
+
+## 15.3. 포커스 이벤트
+
+- onfocus : 요소가 포커스를 얻었을 때
+- onblur : 요소가 포커스를 잃었을 때
+- 텍스트나 비밀번호 입력창 안에 마우스를 클릭하면 마우스 커서가 깜빡인다.
+- 이런 상태를 포커스를 얻었다고 표현
+- 반대로 입력창 외부를 클릭하면 포커스를 잃게 된다.
+
+```html
+<body>
+  <input type="text" id="uid" />
+  <input
+    type="password"
+    id="upw"
+    onfocus="changeColor3()"
+    onblur="changeColor4()"
+  />
+
+  <script src="js/event.js"></script>
+</body>
+```
+
+```js
+const userId = document.getElementById("uid");
+const userPw = document.getElementById("upw");
+
+function changeBgColor1() {
+  userId.style.backgroundColor = "yellow";
+}
+function changeBgColor2() {
+  userId.style.backgroundColor = "gray";
+}
+
+userId.onfocus = function () {
+  changeBgColor1();
+};
+userId.onblur = function () {
+  changeBgColor2();
+};
+
+function changeColor3() {
+  userPw.style.backgroundColor = "yellow";
+}
+
+function changeColor4() {
+  userPw.style.backgroundColor = "gray";
+}
+```
+
+## 15.4 기타 이벤트
+
+### 15.4.1 onchange 이벤트
+
+```html
+<body>
+  <label>
+    사이즈
+    <select name="size" id="sz">
+      <option value="">선택</option>
+      <option value="small">S</option>
+      <option value="medium">M</option>
+      <option value="large">L</option>
+      <option value="xlarge">XL</option>
+    </select>
+  </label>
+  <p id="show"></p>
+
+  <script src="js/event.js"></script>
+</body>
+```
+
+```js
+const sel = document.getElementById("sz");
+sel.addEventListener("change", function (e) {
+  document.getElementById(
+    "show"
+  ).innerHTML = `선택한 사이즈는 ${e.target.value}입니다.`;
 });
 ```
